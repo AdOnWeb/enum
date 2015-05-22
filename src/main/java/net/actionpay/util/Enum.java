@@ -7,31 +7,41 @@ import java.util.*;
  * @author Artur Khakimov <djion@ya.ru>
  */
 public class Enum<T extends Enum> {
-
+    /**
+     * @param clazz Enum class
+     * @param id    constant
+     * @param name  enum name
+     */
     protected static void register(Class<? extends Enum> clazz, int id, String name) {
         if (!map.containsKey(clazz))
-            map.put(clazz,new HashMap<Object, String>());
-        map.get(clazz).put(id,name);
+            map.put(clazz, new HashMap<Object, String>());
+        map.get(clazz).put(id, name);
     }
 
     static Map<Class<?>, Map<Object, String>> map = new HashMap<>();
 
-    public static <E extends Enum> E by(Class<E> cls, Integer value){
+    /**
+     * Enum initializer
+     * @param cls Enum class
+     * @param value Init Value
+     * @param <E> class
+     * @return new Enum child of class cls
+     */
+    public static <E extends Enum> E by(Class<E> cls, Integer value) {
         E result = null;
-            if (Enum.class.isAssignableFrom(cls)) {
-                try {
-                    result = (E)(cls.getConstructor().newInstance());
-                    result.setInternalId(value);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+        if (Enum.class.isAssignableFrom(cls)) {
+            try {
+                result = (E) (cls.getConstructor().newInstance());
+                result.setInternalId(value);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+        }
         return result;
     }
 
     protected Integer id;
-
     protected String name;
 
     public String toString() {
@@ -50,17 +60,10 @@ public class Enum<T extends Enum> {
         return this;
     }
 
-
-    /**
-     * @return int|string
-     */
     public Integer getId() {
         return this.id;
     }
 
-    /**
-     * @return string
-     */
     public String getName() {
         return this.name;
     }
